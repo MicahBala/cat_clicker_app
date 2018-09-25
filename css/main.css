@@ -1,0 +1,34 @@
+body {
+  font-family: sans-serif;
+}
+
+.wrapper {
+  width: 800px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.wrapper .card {
+  width: 350px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 9px 20px 26px 0px rgba(0, 0, 0, 0.5);
+  border: 1px rgba(0, 0, 0, 0.5);
+}
+
+img {
+  width: 100%;
+}
+
+.head h3 {
+  padding-left: 0.5rem;
+  color: rgba(0, 0, 0, 0.7);
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card_footer p {
+  padding: 0.5rem;
+  color: rgba(0, 0, 0, 0.7);
+}
