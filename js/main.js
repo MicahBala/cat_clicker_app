@@ -1,43 +1,47 @@
-// Select card pictures
+'use strict';
+
+class ClickCat {
+  constructor(targetCat, clicks) {
+    this.numClicks = clicks;
+    this.targetClicked = targetCat;
+  }
+
+  /* Variables */
+
+  // Method to update the clicks on the page
+  updateClicks() {
+    // Select the class holding the cat image
+    let myCat = document.querySelector(`.${this.targetClicked}`);
+
+    //   Find the next sibling and target its child element with class of clicks - "p .clicks"
+    let nxtSibling = myCat.nextElementSibling.firstElementChild; //Gives you p tag
+    let child = `${nxtSibling.tagName.toLowerCase()} .clicks`; //selects "p .clicks"
+    let elem = document.querySelector(child);
+
+    // Update the child element's text to the number of clicks
+    elem.textContent = this.numClicks;
+  }
+}
+
+// Select cat pictures
 let catPic = document.querySelectorAll('.card');
-// Track the number of clicks on each cat
-let clicksOnCat = 0;
 
-// function to update the number of clicks on the page beside each cat picture
-function numberOfClicks(targetCat, numClicks) {
-  // Select the class holding the cat image
-  let myCat = document.querySelector(`.${targetCat}`);
+// track number of clicks
+let clicks = 0;
+let targetCat;
 
-  //   Find the next sibling and target its child element with class of clicks - "p .clicks"
-  let nxtSibling = myCat.nextElementSibling.firstElementChild; //Gives you p tag
-  let child = `${nxtSibling.tagName.toLowerCase()} .clicks`; //selects "p .clicks"
-  let elem = document.querySelector(child);
+// function to instantiate new ClickCat object
+function update(e) {
+  clicks++;
+  targetCat = e.target.className;
 
-  //   Update the child element's text to the number of clicks
-  elem.textContent = numClicks;
+  let myClicks = new ClickCat(targetCat, clicks);
+  let printOut = myClicks.updateClicks();
+
+  return printOut;
 }
 
-// function to Check which cat picture was clicked
-function catClicks(e) {
-  // Get the class name of the clicked element holding the picture
-  let clickedCat = e.target.className;
-
-  // Checks if the clicked element has class
-  if (clickedCat === 'first_cat') {
-    clicksOnCat++;
-    /* This is where i think my problem starts - Increments the number of clicks and pass
-    * it to the called method along with a reference to the element clicked.
-     */
-    numberOfClicks(clickedCat, clicksOnCat);
-  }
-
-  if (clickedCat === 'second_cat') {
-    clicksOnCat++;
-    numberOfClicks(clickedCat, clicksOnCat);
-  }
-}
-
-// Loop through the collection of cat pictures and listen for click event
 catPic.forEach(cat => {
-  cat.addEventListener('click', catClicks);
+  // console.log(cat);
+  cat.addEventListener('click', update);
 });
