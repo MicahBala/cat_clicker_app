@@ -6,16 +6,20 @@ class ClickCat {
     this.targetClicked = clickedElement;
     this.src = '';
     this.alt = '';
+    this.catPicture = document.getElementsByTagName('img');
   }
 
   updatePicture(src, alt) {
-    // Update number of clicks
-    numberOfClicks.textContent = this.numClicks;
-
     // Show the picture
     let image = document.querySelector('.image');
     image.setAttribute('src', src);
     image.setAttribute('alt', alt);
+
+    image.addEventListener('click', () => {
+      this.numClicks++;
+      // Update number of clicks
+      numberOfClicks.textContent = this.numClicks;
+    });
   }
 
   // Show Picture and update the number of clicks
@@ -92,7 +96,7 @@ let clickedElement, src, alt;
 
 // function to instantiate new ClickCat object
 function update(e) {
-  clicks++;
+  // clicks++;
   clickedElement = e.target.textContent;
 
   let picObject = new ClickCat(clickedElement, clicks);
