@@ -1,8 +1,8 @@
 'use strict';
 // MODEL: Create a model that holds an array of cat objects with properties (name, picture url and click count)
 let model = {
-  //   currentCat: null,
-  catObjectsArray: [
+  currentCat: null,
+  catObjects: [
     {
       name: 'Turkish Van',
       picture: 'img/TurkishVan.jpg',
@@ -39,73 +39,92 @@ let model = {
 // CONTROLLER: Gets data from the model and updates the view
 let controller = {
   init: function() {
-    // model.currentCat = model.catObjectsArray[0];
-    view.init();
-  },
-  // return array of cats objects from the model
-  getCatArray: function() {
-    return model.catObjectsArray;
+    // Set current cat
+    model.currentCat = model.catObjects[0];
+    // Initialize the view
+    viewCat.init();
+    viewNames.init();
   },
 
-  //   Number of clicks
-  getClicks: function(x) {
-    model.catObjectsArray[x].clickCount++;
+  // Get the array of cat objects from the model
+  getCatObjects: function() {
+    return model.catObjects;
+  },
+
+  // Get the currently selected cat
+  getCurrentCat: function() {
+    return model.currentCat;
+  },
+
+  // Set current cat to the cat object passed to the function
+  setCurrentCat: function(myCat) {
+    model.currentCat = myCat;
+  },
+
+  // Increments the number of clicks
+  incrementClick: function() {
+    model.currentCat.clickCount++;
+
+    // After incrementing the clicks, call the render function again
+    viewCat.render();
   }
 };
 
-// VIEW: Create view for list of cats with click handlers registered on each
-let view = {
+// VIEW: Create view for cat picture
+let viewCat = {
   init: function() {
-    // Select container holding the cat name in the display area
-    this.pictureName = document.querySelector('.head .name');
+    // Display cat name area
+    this.catName = document.querySelector('.head .name');
 
-    // Select container holding the number of clicks in the display area
-    this.numberOfClicks = document.querySelector('.card_footer .clicks');
+    // Display cat picture area
+    this.catPicture = document.querySelector('.image');
 
-    // Image element
-    this.image = document.querySelector('.image');
+    // Display number of clicks area
+    this.numClicks = document.querySelector('.card_footer .clicks');
+
+    this.catPicture.addEventListener('click', () => {
+      // console.log('You clicked me!');
+      controller.incrementClick();
+    });
+
+    this.render();
+  },
+
+  render: function() {
+    let selectedCat = controller.getCurrentCat();
+    this.catName.textContent = selectedCat.name;
+    this.catPicture.setAttribute('src', selectedCat.picture);
+    this.numClicks.textContent = selectedCat.clickCount;
+  }
+};
+
+let viewNames = {
+  init: function() {
+    // Cat objects
+    this.cats = controller.getCatObjects();
 
     // Select list of cat names
     this.buttons = document.querySelectorAll('.buttons');
 
-    this.pictureName.textContent = controller.getCatArray()[0].name;
-    this.image.setAttribute('src', controller.getCatArray()[0].picture);
-    this.image.setAttribute('alt', controller.getCatArray()[0].alt);
-    this.numberOfClicks.textContent = controller.getCatArray()[0].clickCount;
-
-    view.render();
-  },
-
-  updateDisplay: function(e) {
-    for (let i = 0; i < controller.getCatArray().length; i++) {
-      if (e.target.textContent === controller.getCatArray()[i].name) {
-        this.pictureName.textContent = controller.getCatArray()[i].name;
-        this.image.setAttribute('src', controller.getCatArray()[i].picture);
-        this.image.setAttribute('alt', controller.getCatArray()[i].alt);
-        this.numberOfClicks.textContent = controller.getCatArray()[
-          i
-        ].clickCount;
-      }
-    }
+    // Call the render function for this view
+    this.render();
   },
 
   render: function() {
-    //   Event listener for cat names claick
-    this.buttons.forEach(button => {
-      button.addEventListener('click', e => {
-        this.updateDisplay(e);
-      });
-    });
+    this.buttons.forEach(btn => {
+      btn.addEventListener('click', e => {
+        // Loop through the cat objects array and check if the name property of each cat object is same wityh the clicked name, then set the current cat to the one that matches
+        for (let i = 0; i < this.cats.length; i++) {
+          if (e.target.textContent === this.cats[i].name) {
+            controller.setCurrentCat(this.cats[i]);
 
-    // Event listener for cat picture
-    this.image.addEventListener('click', e => {
-      for (let i = 0; i < controller.getCatArray().length; i++) {
-        if (e.target.nodeName === 'IMG') {
-          controller.getClicks(i);
+            viewCat.render();
+          }
         }
-      }
+      });
     });
   }
 };
 
+// Code initializes here
 controller.init();
