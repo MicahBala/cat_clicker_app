@@ -32,6 +32,36 @@ let model = {
       picture: 'img/AbyssinianCat.jpg',
       alt: 'Picture of Abyssinian cat',
       clickCount: 0
+    },
+    {
+      name: 'Snow Shoe',
+      picture: 'img/SnowShoe.jpg',
+      alt: 'Picture of Snow Shoe cat',
+      clickCount: 0
+    },
+    {
+      name: 'Russian Blue',
+      picture: 'img/RussianBlue.jpg',
+      alt: 'Picture of Russian Blue cat',
+      clickCount: 0
+    },
+    {
+      name: 'Japanese Bobtail',
+      picture: 'img/JapaneseBobtail.jpg',
+      alt: 'Picture of Japanese Bobtail cat',
+      clickCount: 0
+    },
+    {
+      name: 'American Shorthair',
+      picture: 'img/AmericanShorthair.jpg',
+      alt: 'Picture of American Shorthair cat',
+      clickCount: 0
+    },
+    {
+      name: 'American Wirehair',
+      picture: 'img/AmericanWirehair.jpg',
+      alt: 'Picture of American Wirehair cat',
+      clickCount: 0
     }
   ]
 };
