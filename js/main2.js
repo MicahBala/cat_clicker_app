@@ -1,6 +1,7 @@
 'use strict';
 // MODEL: Create a model that holds an array of cat objects with properties (name, picture url and click count)
 let model = {
+  showAdminPanel: false,
   currentCat: null,
   catObjects: [
     {
@@ -73,7 +74,8 @@ let controller = {
     model.currentCat = model.catObjects[0];
     // Initialize the view
     viewCat.init();
-    viewNames.init();
+    changeCatPicture.init();
+    viewAdmin.init();
   },
 
   // Get the array of cat objects from the model
@@ -97,6 +99,16 @@ let controller = {
 
     // After incrementing the clicks, call the render function again
     viewCat.render();
+  },
+
+  // Set Admin Panel State
+  setAdminPanelState: function(bool) {
+    model.showAdminPanel = bool;
+  },
+
+  // Get Admin Panel State
+  getAdminPanelState: function() {
+    return model.showAdminPanel;
   }
 };
 
@@ -128,7 +140,8 @@ let viewCat = {
   }
 };
 
-let viewNames = {
+// View to change picture of cat
+let changeCatPicture = {
   init: function() {
     // Cat objects
     this.cats = controller.getCatObjects();
@@ -153,6 +166,46 @@ let viewNames = {
         }
       });
     });
+  }
+};
+
+// VIEW: to show or hide Admin panel
+let viewAdmin = {
+  init: function() {
+    this.adminButton = document.querySelector('.btn-admin');
+    this.adminPanel = document.querySelector('.admin-panel');
+
+    // console.log(`Panel State = ${controller.getAdminPanelState()}`);
+
+    // Click event for admin button
+    this.adminButton.addEventListener('click', () => {
+      controller.setAdminPanelState(true);
+
+      this.render();
+    });
+
+    // Click event for cancel button
+    this.cancelButton = document.querySelector('.cancel');
+    this.cancelButton.addEventListener('click', () => {
+      controller.setAdminPanelState(false);
+
+      this.render();
+    });
+
+    // Click event for Submit button
+    this.submitButton = document.querySelector('.submit');
+    this.submitButton.addEventListener('click', () => {
+      controller.setAdminPanelState(false);
+
+      changeCatPicture.render();
+    });
+  },
+  render: function() {
+    // console.log(`Panel State Now = ${controller.getAdminPanelState()}`);
+
+    if (this.adminPanel) {
+      this.adminPanel.classList.toggle('hide');
+    }
   }
 };
 
